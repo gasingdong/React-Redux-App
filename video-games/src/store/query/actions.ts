@@ -1,4 +1,4 @@
-import axios from 'axios';
+import fetchJsonp from 'fetch-jsonp';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import {
@@ -8,7 +8,11 @@ import {
 } from '../results/types';
 import { AppState } from '..';
 
-const getGames = (): ThunkAction<void, AppState, null, Action> => async (
+interface ResponseType {
+  results: {};
+}
+
+const getGamesAction = (): ThunkAction<void, AppState, null, Action> => async (
   dispatch
 ): Promise<void> => {
   dispatch({
@@ -17,16 +21,26 @@ const getGames = (): ThunkAction<void, AppState, null, Action> => async (
   console.log('calling api!');
 
   try {
-    const response = await axios.get(
-      'https://www.giantbomb.com/api/games/?api_key=82f633d18a8558ffe336c55b0bc657e400578abc'
+    const response = await fetchJsonp(
+      'https://www.giantbomb.com/api/games/?api_key=82f633d18a8558ffe336c55b0bc657e400578abc&format=jsonp&json_callback=search_results',
+      {
+        jsonpCallbackFunction: 'search_results',
+      }
     );
+    const json = await response.json();
 
-    if (response) {
-      dispatch({ type: FETCH_GAMES_SUCCESS, payload: response.data.results });
+    if (json) {
+      console.log('response', json.results);
+      dispatch({
+        type: FETCH_GAMES_SUCCESS,
+        payload: {
+          games: [...json.results],
+        },
+      });
     }
   } catch (err) {
     dispatch({ type: FETCH_GAMES_FAIL, payload: err });
   }
 };
 
-export default getGames;
+export default getGamesAction;

@@ -27,14 +27,14 @@ const resultsReducer = (
     case FETCH_GAMES_SUCCESS:
       return {
         ...state,
-        games: action.payload,
+        games: action.payload.games,
         isFetching: false,
         error: '',
       };
     case FETCH_GAMES_FAIL:
       return {
         ...state,
-        error: '',
+        error: action.payload.error,
       };
     default:
       return state;

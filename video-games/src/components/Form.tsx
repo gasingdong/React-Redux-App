@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
+import { QueryState } from '../store/query/types';
 
-const Form = (): React.ReactElement => {
+interface FormProps {
+  setQuery: (query: QueryState) => void;
+}
+
+const Form = ({ setQuery }: FormProps): React.ReactElement => {
   const [name, setName] = useState('');
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setName(event.target.value);
   };
 
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    setQuery({
+      name,
+    });
+    setName('');
+  };
+
   return (
     <div className="form">
-      <form>
+      <form onSubmit={submitHandler}>
         <input
           type="text"
           value={name}
