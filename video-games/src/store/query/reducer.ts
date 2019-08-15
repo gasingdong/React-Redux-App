@@ -1,4 +1,4 @@
-import { QueryState, QueryAction } from './types';
+import SEND_QUERY, { QueryState, QueryAction } from './types';
 
 const initialState: QueryState = {
   name: '',
@@ -8,7 +8,15 @@ const queryReducer = (
   state = initialState,
   action: QueryAction
 ): QueryState => {
-  return state;
+  switch (action.type) {
+    case SEND_QUERY:
+      return {
+        ...state,
+        name: action.payload.name,
+      };
+    default:
+      return state;
+  }
 };
 
 export default queryReducer;

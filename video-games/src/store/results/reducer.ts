@@ -1,7 +1,7 @@
 import { ResultsState, ResultsAction } from './types';
 
 const initialState: ResultsState = {
-  games: [],
+  games: [{ name: 'Metal Gear Solid' }],
 };
 
 const resultsReducer = (
