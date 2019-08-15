@@ -30,7 +30,9 @@ const Form = ({ setQuery }: FormProps): React.ReactElement => {
           placeholder="Search by name"
           onChange={changeHandler}
         />
-        <button type="submit">Search</button>
+        <button className="button" type="submit">
+          Search
+        </button>
       </form>
     </div>
   );

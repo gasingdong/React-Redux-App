@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import 'bulma';
 import './App.css';
 import Form from './components/Form';
 import GameList from './components/GameList';
